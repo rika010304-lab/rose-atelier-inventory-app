@@ -1,2 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>花一覧 | 花屋在庫管理アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo-area">
+        <p class="logo-sub">Flower Shop</p>
+        <h1>在庫管理アプリ</h1>
+      </div>
 
-<h1>Flower Shop App</h1>
+      <nav class="side-nav">
+        <a href="index.html" class="active">花一覧</a>
+        <a href="add-flower.html">花を登録</a>
+        <a href="order.html">注文登録</a>
+        <a href="waste.html">廃棄登録</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="page-label">Dashboard</p>
+          <h2>花一覧</h2>
+        </div>
+        <a href="add-flower.html" class="primary-btn">＋ 花を登録</a>
+      </header>
+
+      <section class="summary-grid">
+        <article class="summary-card">
+          <p class="summary-title">登録商品数</p>
+          <p class="summary-value">12</p>
+        </article>
+        <article class="summary-card">
+          <p class="summary-title">本日の注文数</p>
+          <p class="summary-value">8</p>
+        </article>
+        <article class="summary-card">
+          <p class="summary-title">廃棄登録数</p>
+          <p class="summary-value">3</p>
+        </article>
+      </section>
+
+      <section class="content-card">
+        <div class="section-head">
+          <div>
+            <h3>在庫一覧</h3>
+            <p>花の在庫状況を確認できます</p>
+          </div>
+          <input type="text" class="search-box" placeholder="花名で検索">
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>花名</th>
+                <th>色</th>
+                <th>単価</th>
+                <th>在庫数</th>
+                <th>入荷日</th>
+                <th>状態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>バラ</td>
+                <td>赤</td>
+                <td>300円</td>
+                <td>20本</td>
+                <td>2026/04/07</td>
+                <td><span class="status ok">在庫あり</span></td>
+                <td>
+                  <div class="action-group">
+                    <a href="order.html" class="table-btn">注文</a>
+                    <a href="waste.html" class="table-btn sub">廃棄</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>カーネーション</td>
+                <td>ピンク</td>
+                <td>200円</td>
+                <td>15本</td>
+                <td>2026/04/06</td>
+                <td><span class="status ok">在庫あり</span></td>
+                <td>
+                  <div class="action-group">
+                    <a href="order.html" class="table-btn">注文</a>
+                    <a href="waste.html" class="table-btn sub">廃棄</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>ガーベラ</td>
+                <td>オレンジ</td>
+                <td>180円</td>
+                <td>6本</td>
+                <td>2026/04/05</td>
+                <td><span class="status low">残り少なめ</span></td>
+                <td>
+                  <div class="action-group">
+                    <a href="order.html" class="table-btn">注文</a>
+                    <a href="waste.html" class="table-btn sub">廃棄</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>トルコキキョウ</td>
+                <td>白</td>
+                <td>250円</td>
+                <td>0本</td>
+                <td>2026/04/03</td>
+                <td><span class="status danger">在庫切れ</span></td>
+                <td>
+                  <div class="action-group">
+                    <a href="order.html" class="table-btn">注文</a>
+                    <a href="waste.html" class="table-btn sub">廃棄</a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

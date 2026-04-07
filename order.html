@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注文登録 | 花屋在庫管理アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo-area">
+        <p class="logo-sub">Flower Shop</p>
+        <h1>在庫管理アプリ</h1>
+      </div>
+
+      <nav class="side-nav">
+        <a href="index.html">花一覧</a>
+        <a href="add-flower.html">花を登録</a>
+        <a href="order.html" class="active">注文登録</a>
+        <a href="waste.html">廃棄登録</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="page-label">Order</p>
+          <h2>注文登録</h2>
+        </div>
+      </header>
+
+      <section class="content-card form-card">
+        <div class="section-head single">
+          <div>
+            <h3>注文内容を入力</h3>
+            <p>注文登録後、在庫が減る想定の画面です</p>
+          </div>
+        </div>
+
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="flower-name">花名</label>
+              <select id="flower-name" name="flower-name">
+                <option>バラ</option>
+                <option>カーネーション</option>
+                <option>ガーベラ</option>
+                <option>トルコキキョウ</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="quantity">数量</label>
+              <input type="number" id="quantity" name="quantity" placeholder="例：5">
+            </div>
+
+            <div class="form-group">
+              <label for="customer">注文者名</label>
+              <input type="text" id="customer" name="customer" placeholder="例：山田 花子">
+            </div>
+
+            <div class="form-group">
+              <label for="order-date">注文日</label>
+              <input type="date" id="order-date" name="order-date">
+            </div>
+
+            <div class="form-group full-width">
+              <label for="order-note">備考</label>
+              <textarea id="order-note" name="order-note" rows="4" placeholder="例：赤系でまとめる"></textarea>
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <p class="highlight-label">想定合計金額</p>
+            <p class="highlight-value">1,500円</p>
+          </div>
+
+          <div class="form-actions">
+            <a href="index.html" class="secondary-btn">戻る</a>
+            <button type="submit" class="primary-btn">注文を登録</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
