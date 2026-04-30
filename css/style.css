@@ -1,22 +1,34 @@
+/* =========================================================
+   01. Design Tokens
+   色・影・角丸など、アプリ全体で使う共通変数
+========================================================= */
 :root {
-  --bg: #f7f4f0;
-  --sidebar: #dbe7df;
-  --sidebar-dark: #c8d8ce;
+  --bg: #f8f6f2;
   --card: #ffffff;
-  --line: #e7dfd7;
-  --text: #2f3a34;
-  --subtext: #6f7b74;
-  --accent: #7ea68a;
-  --accent-dark: #648570;
-  --accent-soft: #edf4ef;
-  --danger: #d97b7b;
-  --danger-soft: #fceaea;
-  --warning: #c49a52;
+  --line: #e8e2d9;
+  --text: #3b332e;
+  --subtext: #7a6f67;
+  --heading: #2f2723;
+  --accent: #8a9f8f;
+  --accent-dark: #6f8677;
+  --accent-soft: #edf3ef;
+  --danger: #c88b8b;
+  --danger-soft: #f8eded;
+  --warning: #c7a36b;
   --warning-soft: #fbf3e3;
   --shadow: 0 12px 30px rgba(66, 54, 44, 0.08);
-  --radius-lg: 20px;
+  --shadow-soft: 0 16px 36px rgba(78, 63, 49, 0.07);
+  --radius-lg: 24px;
   --radius-md: 14px;
   --radius-sm: 10px;
+}
+
+/* =========================================================
+   02. Base / Reset
+   全ページ共通の基本設定
+========================================================= */
+html {
+  scroll-behavior: smooth;
 }
 
 * {
@@ -25,71 +37,119 @@
 
 body {
   margin: 0;
-  font-family: "Yu Gothic UI", "Hiragino Sans", "Meiryo", sans-serif;
-  background: linear-gradient(180deg, #f9f6f2 0%, #f5f1eb 100%);
+  background: var(--bg);
   color: var(--text);
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    "MS PMincho",
+    "Yu Gothic UI",
+    serif;
+  letter-spacing: 0.02em;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: inherit;
 }
 
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+.video-kicker,
+.section-label,
+.logo-sub {
+  font-family:
+    "Georgia",
+    "Times New Roman",
+    "Yu Mincho",
+    serif;
+  color: var(--heading);
+  font-weight: 500;
+}
+
+/* =========================================================
+   03. App Layout / Sidebar
+   管理画面系ページの2カラムレイアウトと左サイドバー
+========================================================= */
 .app-layout {
-  min-height: 100vh;
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
 }
 
 .sidebar {
-  background: linear-gradient(180deg, var(--sidebar) 0%, var(--sidebar-dark) 100%);
-  padding: 32px 24px;
+  background: linear-gradient(180deg, #ecf2ee 0%, #e2ebe5 100%);
+  padding: 24px;
   border-right: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .logo-area {
-  margin-bottom: 40px;
-}
-
-.logo-sub {
-  margin: 0 0 6px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--subtext);
+  margin-bottom: 30px;
 }
 
 .logo-area h1 {
   margin: 0;
   font-size: 28px;
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+.logo-sub {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8f8379;
 }
 
 .side-nav {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .side-nav a {
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  color: #324038;
-  transition: 0.2s;
+  padding: 12px 14px;
+  border-radius: 14px;
+  transition: 0.2s ease;
 }
 
 .side-nav a:hover {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .side-nav a.active {
-  background: #ffffff;
-  box-shadow: 0 8px 20px rgba(60, 50, 40, 0.08);
+  background: white;
+  box-shadow: var(--shadow);
 }
 
+/* サイドバー内：ウェルカムページへ戻るリンク */
+.side-nav .back-home {
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  color: var(--subtext);
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.side-nav .back-home:hover {
+  color: var(--accent-dark);
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateX(-2px);
+}
+
+/* =========================================================
+   04. Page Layout / Header / Content Card
+   各ページ共通のメイン領域・見出し・カード
+========================================================= */
 .main-content {
-  padding: 36px;
+  padding: 30px;
 }
 
 .page-header {
@@ -97,22 +157,206 @@ a {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .page-label {
   margin: 0 0 6px;
-  font-size: 13px;
-  color: var(--subtext);
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+  color: #998d84;
 }
 
 .page-header h2 {
   margin: 0;
-  font-size: 32px;
+  font-size: 34px;
+  line-height: 1.2;
 }
 
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.section-head.single {
+  justify-content: flex-start;
+}
+
+.section-head h3 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--subtext);
+  line-height: 1.7;
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.84);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 0, 0, 0.035);
+}
+
+/* 旧ヘッダー内Welcomeリンク用。今後使わない場合は削除OK */
+.back-welcome-link {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--subtext);
+  transition: 0.2s ease;
+}
+
+.back-welcome-link:hover {
+  color: var(--accent-dark);
+  transform: translateX(-2px);
+}
+
+/* =========================================================
+   05. Buttons
+   全ページ共通の主要ボタン・サブボタン・テーブル用ボタン
+========================================================= */
+.primary-btn,
+.secondary-btn,
+.table-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: 0.22s ease;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #8ea698 0%, #748b7c 100%);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(116, 139, 124, 0.2);
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.98);
+}
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.78);
+  color: #4f4641;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.table-btn {
+  background: var(--accent);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.table-btn.sub {
+  background: #f1ece4;
+  color: #5e544d;
+}
+
+.large-btn {
+  margin-top: 20px;
+}
+
+/* =========================================================
+   06. Forms
+   品種登録・廃棄登録・在庫登録などのフォーム共通
+========================================================= */
+.search-box,
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 14px;
+  padding: 13px 14px;
+  font: inherit;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-box:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(138, 159, 143, 0.14);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-card {
+  max-width: 980px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.checkbox-group {
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   07. Summary Cards
+   一覧ページなどで使う集計カード
+========================================================= */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -121,10 +365,10 @@ a {
 }
 
 .summary-card {
-  background: var(--card);
-  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 22px;
   padding: 24px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-soft);
   border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
@@ -140,63 +384,10 @@ a {
   font-weight: 700;
 }
 
-.content-card {
-  background: var(--card);
-  border-radius: 24px;
-  padding: 28px;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.section-head.single {
-  justify-content: flex-start;
-}
-
-.section-head h3 {
-  margin: 0 0 6px;
-  font-size: 22px;
-}
-
-.section-head p {
-  margin: 0;
-  color: var(--subtext);
-}
-
-.search-box,
-input,
-select,
-textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 12px;
-  padding: 13px 14px;
-  font: inherit;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.search-box {
-  max-width: 240px;
-}
-
-input:focus,
-select:focus,
-textarea:focus,
-.search-box:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(126, 166, 138, 0.15);
-}
-
+/* =========================================================
+   08. Tables
+   一覧ページ・管理画面のテーブル表示
+========================================================= */
 .table-wrap {
   overflow-x: auto;
 }
@@ -207,26 +398,57 @@ table {
   min-width: 900px;
 }
 
-thead th {
-  background: #f8f4ee;
-  color: #5e685f;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: left;
-  padding: 14px 16px;
+th,
+td {
+  padding: 12px;
   border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
 }
 
-tbody td {
-  padding: 16px;
-  border-bottom: 1px solid #f0ebe4;
-  vertical-align: middle;
+thead th {
+  background: #f7f2eb;
+  color: #6f645b;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 tbody tr:hover {
   background: #fcfaf7;
 }
 
+.search-box {
+  max-width: 240px;
+}
+
+/* =========================================================
+   09. Admin / Register Page Parts
+   品種登録・管理画面用の画像サムネイルなど
+========================================================= */
+.admin-register-card {
+  margin-bottom: 24px;
+}
+
+.admin-thumb {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f4efe8;
+  flex-shrink: 0;
+}
+
+.admin-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================================
+   10. Tags / Badges
+   状態タグ・色タグ・特徴タグ（日持ち/香り）
+========================================================= */
 .status {
   display: inline-flex;
   align-items: center;
@@ -253,118 +475,975 @@ tbody tr:hover {
   color: var(--danger);
 }
 
-.action-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.table-btn,
-.primary-btn,
-.secondary-btn {
+.soft-color-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  padding: 11px 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 700;
-  transition: 0.2s;
-  border: none;
-  cursor: pointer;
-  font: inherit;
+  color: white;
 }
 
-.primary-btn,
-.table-btn {
+.soft-pink {
+  background: #f1b5c6;
+  color: #ffffff;
+}
+
+.soft-red {
+  background: #d98686;
+  color: #ffffff;
+}
+
+.soft-yellow {
+  background: #dfc474;
+  color: #ffffff;
+}
+
+.soft-white {
+  background: #d9d6d1;
+  color: #4f4b47;
+}
+
+.soft-green {
+  background: #9dbda8;
+  color: #ffffff;
+}
+
+.soft-orange {
+  background: #dea87a;
+  color: #ffffff;
+}
+
+.soft-other {
+  background: linear-gradient(135deg, #d8c3ea 0%, #e6c8b4 50%, #cdd9ef 100%);
+  color: #ffffff;
+}
+
+.feature-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+
+.feature-tag {
+  font-size: 11px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.feature-tag.long {
+  background: #7ea68a;
+}
+
+.feature-tag.aroma {
+  background: #c78fb3;
+}
+
+/* =========================================================
+   11. Order Page
+   注文登録ページ：カートリンク・フィルター・バラカード
+========================================================= */
+.cart-header {
+  align-items: center;
+}
+
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  font-weight: 700;
+}
+
+.cart-count-badge {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 999px;
   background: var(--accent);
   color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
 }
 
-.primary-btn:hover,
-.table-btn:hover {
-  background: var(--accent-dark);
+.catalog-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.table-btn.sub,
-.secondary-btn {
-  background: #f4efe8;
-  color: #5f695f;
+.chip {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-.table-btn.sub:hover,
-.secondary-btn:hover {
-  background: #eae2d8;
+.chip:hover {
+  opacity: 0.88;
 }
 
-.form-card {
-  max-width: 980px;
+.chip[data-filter="all"] {
+  background: linear-gradient(135deg, #aab6af 0%, #8e9b94 100%);
 }
 
-.form-grid {
+.chip[data-filter="ピンク"] {
+  background: #f1b5c6;
+}
+
+.chip[data-filter="レッド"] {
+  background: #d98686;
+}
+
+.chip[data-filter="イエロー"] {
+  background: #dfc474;
+}
+
+.chip[data-filter="ホワイト"] {
+  background: #d9d6d1;
+  color: #4f4b47;
+}
+
+.chip[data-filter="グリーン"] {
+  background: #9dbda8;
+}
+
+.chip[data-filter="オレンジ"] {
+  background: #dea87a;
+}
+
+.chip[data-filter="その他"] {
+  background: linear-gradient(135deg, #d8c3ea 0%, #e6c8b4 50%, #cdd9ef 100%);
+}
+
+.chip.active {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.flower-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+.flower-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 0, 0, 0.035);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.form-group label {
-  margin-bottom: 8px;
-  font-weight: 700;
-  font-size: 14px;
+.flower-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px rgba(66, 54, 44, 0.1);
 }
 
-.full-width {
-  grid-column: 1 / -1;
+.flower-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f5f5f5;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 120px;
+.flower-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.03);
 }
 
-.highlight-box {
-  margin-top: 24px;
-  padding: 20px 22px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #f5f9f5 0%, #edf4ef 100%);
-  border: 1px solid #dce8df;
-}
-
-.highlight-label {
-  margin: 0 0 8px;
-  color: var(--subtext);
-  font-size: 14px;
-}
-
-.highlight-value {
+/* 注文カード：日持ち/香りタグを画像上に重ねる */
+.image-feature-tags {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
   margin: 0;
-  font-size: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.image-feature-tags .feature-tag {
+  font-size: 11px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #fff;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.flower-card-body {
+  padding: 16px;
+}
+
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #edf4ef;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.flower-name {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.flower-en-name {
+  margin: 0 0 12px;
+  color: var(--subtext);
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.flower-price {
+  margin: 0 0 16px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--accent-dark);
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 28px;
+.card-order-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+  align-items: center;
 }
 
-@media (max-width: 960px) {
-  .app-layout {
+.qty-select {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+/* =========================================================
+   12. Cart Page
+   カートページ：カート内商品・数量変更・合計欄
+========================================================= */
+.cart-page-layout,
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.large-cart-items {
+  margin-bottom: 0;
+}
+
+.empty-cart {
+  margin: 0;
+  padding: 20px;
+  border-radius: 16px;
+  background: #fcfaf7;
+  color: var(--subtext);
+  text-align: center;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 10px;
+  background: #faf7f3;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+.cart-item-image-wrap {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f5f5f5;
+}
+
+.cart-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cart-item-body {
+  min-width: 0;
+}
+
+.cart-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cart-item-head h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.cart-item-head p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--subtext);
+}
+
+.remove-btn {
+  border: none;
+  background: transparent;
+  color: #a76d6d;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0;
+}
+
+.cart-qty-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #f2ece4;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.qty-value {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.subtotal {
+  color: var(--accent-dark);
+  font-size: 16px;
+}
+
+.cart-summary-box,
+.checkout-summary-box {
+  padding-top: 8px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cart-row.total {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.shipping-note-box,
+.shipping-box {
+  background: #fcfaf7;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0 20px;
+}
+
+.shipping-note-box p,
+.shipping-box p {
+  margin: 0 0 8px;
+}
+
+.shipping-note-box p:last-child,
+.shipping-box p:last-child {
+  margin-bottom: 0;
+}
+
+.free-shipping-note {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.column-actions {
+  flex-direction: column;
+}
+
+.column-actions .primary-btn,
+.column-actions .secondary-btn {
+  width: 100%;
+}
+
+.disabled-link {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* =========================================================
+   13. Checkout Page
+   注文確定ページ：配送・支払い・注文サマリー
+========================================================= */
+.checkout-section {
+  margin-bottom: 30px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.checkout-section h4 {
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.radio-option,
+.radio-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fcfaf7;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 600;
+}
+
+.radio-card {
+  display: block;
+  cursor: pointer;
+}
+
+.radio-card input {
+  margin-right: 8px;
+}
+
+.payment-group {
+  flex-direction: column;
+}
+
+.hidden-section {
+  display: none;
+}
+
+.order-summary-panel {
+  position: sticky;
+  top: 24px;
+}
+
+.checkout-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.checkout-item {
+  background: #fcfaf7;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.checkout-item-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.checkout-item-row.sub-row {
+  margin-top: 6px;
+  color: var(--subtext);
+  font-size: 14px;
+}
+
+/* =========================================================
+   14. Welcome Page - Hero
+   ウェルカムページ：動画背景のファーストビュー
+========================================================= */
+.video-welcome-body {
+  background: #f8f6f2;
+  color: var(--text);
+}
+
+.video-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 64px;
+}
+
+.video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.64) 55%, rgba(248, 246, 242, 0.96) 100%),
+    rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(1.5px);
+}
+
+.video-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.video-kicker {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8f8379;
+}
+
+.video-title {
+  margin: 0 0 22px;
+  font-size: 64px;
+  line-height: 1.08;
+  color: var(--heading);
+  letter-spacing: 0.03em;
+  font-weight: 500;
+}
+
+.video-lead {
+  margin: 0 0 28px;
+  font-size: 18px;
+  line-height: 1.9;
+  color: var(--subtext);
+  max-width: 640px;
+}
+
+.video-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.video-scroll {
+  position: absolute;
+  z-index: 2;
+  left: 64px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #7a867f;
+}
+
+.video-scroll span {
+  width: 34px;
+  height: 56px;
+  border: 1px solid rgba(90, 104, 95, 0.35);
+  border-radius: 999px;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.video-scroll span::after {
+  content: "";
+  width: 6px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(90, 104, 95, 0.7);
+  position: absolute;
+  top: 10px;
+  animation: scrollDotLight 1.8s infinite;
+}
+
+.video-scroll p {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.fade-item {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: softFadeUp 1.2s ease forwards;
+}
+
+.fade-1 { animation-delay: 0.2s; }
+.fade-2 { animation-delay: 0.6s; }
+.fade-3 { animation-delay: 1.1s; }
+.fade-4 { animation-delay: 1.6s; }
+.fade-5 { animation-delay: 2s; }
+
+/* =========================================================
+   15. Welcome Page - Concept / Collection / CTA
+   ウェルカムページ下部：コンセプト・ギャラリー・注文導線
+========================================================= */
+.compact-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 56px 40px 36px;
+  align-items: stretch;
+}
+
+.compact-block {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.compact-concept {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 250, 246, 0.86), rgba(255, 250, 246, 0.9)),
+    url("../image/rose/rose-pink/haruka.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.compact-concept::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.4), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.28), transparent 35%);
+  pointer-events: none;
+}
+
+.compact-concept > * {
+  position: relative;
+  z-index: 1;
+}
+
+.compact-block h2 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  line-height: 1.22;
+}
+
+.compact-block > p {
+  margin: 0;
+  color: var(--subtext);
+  line-height: 1.75;
+}
+
+.compact-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.compact-point {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.compact-point h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.compact-point p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--subtext);
+}
+
+.concept-start {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.concept-start h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.concept-start p {
+  margin: 0 0 18px;
+  color: var(--subtext);
+  line-height: 1.75;
+}
+
+.concept-start-btn {
+  width: auto;
+}
+
+.compact-gallery {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+  min-height: 320px;
+  grid-template-areas:
+    "main sub1"
+    "main sub2";
+}
+
+.compact-gallery-main,
+.compact-gallery-sub {
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.compact-gallery-main {
+  grid-area: main;
+  height: 320px;
+}
+
+.compact-gallery-sub {
+  height: 153px;
+}
+
+.compact-gallery-sub:nth-of-type(2) {
+  grid-area: sub1;
+}
+
+.compact-gallery-sub:nth-of-type(3) {
+  grid-area: sub2;
+}
+
+.compact-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+}
+
+.compact-gallery img:hover {
+  transform: scale(1.04);
+}
+
+/* 旧ウェルカム下部セクション用。HTMLから削除済みなら残しても害はなし */
+.compact-final {
+  padding-top: 18px;
+  padding-bottom: 64px;
+}
+
+.white-story-section,
+.white-gallery-section,
+.white-final-section {
+  padding: 80px 40px;
+}
+
+.white-story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.white-story-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.white-story-card img {
+  width: 100%;
+  display: block;
+}
+
+.white-story-card-body {
+  padding: 16px;
+}
+
+.section-copy.center {
+  text-align: center;
+}
+
+.white-gallery {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 16px;
+}
+
+.white-gallery-item,
+.white-gallery-item.large {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.white-gallery-item.large {
+  min-height: 320px;
+}
+
+.white-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.white-final-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 32px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   16. Animations
+   フェードイン・スクロールアイコンのアニメーション
+========================================================= */
+@keyframes softFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollDotLight {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* =========================================================
+   17. Responsive - Tablet
+   1200px以下：2カラムを1カラムへ、カード幅調整
+========================================================= */
+@media (max-width: 1200px) {
+  .compact-showcase,
+  .cart-page-layout,
+  .checkout-layout {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
-    border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  .video-hero {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .compact-showcase {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .video-title {
+    font-size: 48px;
+  }
+
+  .order-summary-panel {
+    position: static;
   }
 
   .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flower-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   18. Responsive - Small Tablet
+   900px以下：サイドバー解除、フォーム・ギャラリーを1カラムへ
+========================================================= */
+@media (max-width: 900px) {
+  .app-layout {
     grid-template-columns: 1fr;
   }
 
@@ -377,9 +1456,16 @@ textarea {
     align-items: flex-start;
   }
 
-  .section-head {
-    flex-direction: column;
-    align-items: flex-start;
+  .white-story-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .white-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .flower-grid {
+    grid-template-columns: 1fr;
   }
 
   .search-box {
@@ -387,21 +1473,63 @@ textarea {
   }
 }
 
-@media (max-width: 640px) {
-  .main-content {
-    padding: 20px;
+/* =========================================================
+   19. Responsive - Mobile
+   760px以下：スマホ表示用の細かい調整
+========================================================= */
+@media (max-width: 760px) {
+  .video-hero {
+    min-height: 92vh;
+    padding: 28px 20px 56px;
   }
 
-  .content-card {
-    padding: 20px;
+  .video-title {
+    font-size: 36px;
   }
 
-  .logo-area h1 {
-    font-size: 24px;
+  .video-lead {
+    font-size: 16px;
   }
 
-  .page-header h2 {
-    font-size: 26px;
+  .video-scroll {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .compact-points {
+    grid-template-columns: 1fr;
+  }
+
+  .compact-gallery {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "sub1"
+      "sub2";
+    min-height: auto;
+  }
+
+  .compact-gallery-main,
+  .compact-gallery-sub {
+    height: 220px;
+  }
+
+  .white-final-inner {
+    padding: 30px 20px;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-item-head,
+  .cart-qty-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-order-row {
+    grid-template-columns: 1fr;
   }
 
   .form-actions {
@@ -412,4 +1540,47 @@ textarea {
   .secondary-btn {
     width: 100%;
   }
+
+  .concept-start-btn {
+    width: 100%;
+  }
+}
+/* welcomeページ */
+.nav-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 12px 0;
+}
+
+/* side */
+.nav-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 14px 0;
+}
+
+.back-home {
+  font-size: 13px;
+  color: var(--subtext);
+  transition: 0.2s;
+}
+
+.back-home:hover {
+  color: var(--accent-dark);
+  transform: translateX(-2px);
+}
+
+.status.out {
+  background: #eeeeee;
+  color: #888888;
+}
+
+.feature-tag.soldout {
+  background: #999;
+}
+
+.card-btn:disabled,
+.qty-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }

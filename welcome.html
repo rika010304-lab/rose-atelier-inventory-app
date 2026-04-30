@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rose Atelier | バラ注文アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="video-welcome-body">
+
+  <header class="video-hero">
+    <video id="bgVideo" class="video-bg" autoplay muted loop playsinline></video>
+    <div class="video-overlay"></div>
+
+    <div class="video-hero-content">
+      <p class="video-kicker fade-item fade-1">ROSE ATELIER</p>
+
+      <h1 class="video-title">
+        <span class="fade-item fade-2">花を選ぶ時間まで、</span><br>
+        <span class="fade-item fade-3">美しく。</span>
+      </h1>
+
+      <p class="video-lead fade-item fade-4">
+        写真、色、香り、日持ち。<br>
+        一輪ずつの個性を感じながら選べる、<br>
+        バラ専門の注文体験。
+      </p>
+
+      <div class="video-actions fade-item fade-5">
+        <a href="#welcome-compact" class="primary-btn">世界観を見る</a>
+        <a href="order.html" class="secondary-btn">注文をはじめる</a>
+      </div>
+    </div>
+
+    <div class="video-scroll">
+      <span></span>
+      <p>Scroll</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="compact-showcase" id="welcome-compact">
+      <div class="compact-block compact-concept">
+        <p class="section-label">Concept</p>
+        <h2>名前ではなく、印象で選ぶ。</h2>
+        <p>
+          色、空気感、香りまで含めて、<br>
+          バラを視覚的に選べる体験をつくりました。
+        </p>
+
+        <div class="compact-points">
+  <div class="compact-point">
+    <h3>Color</h3>
+    <p>色から直感的に探せる</p>
+  </div>
+
+  <div class="compact-point">
+    <h3>Character</h3>
+    <p>日持ち・香りをタグ表示</p>
+  </div>
+
+  <div class="compact-point">
+    <h3>Gift</h3>
+    <p>贈り物にも対応</p>
+  </div>
+</div>
+
+<div class="concept-start">
+  <p class="section-label">Start Order</p>
+  <h3>お気に入りの一輪を選びましょう。</h3>
+  <p>
+    写真を見ながら品種を選び、本数を指定して注文できます。
+  </p>
+  <a href="order.html" class="primary-btn concept-start-btn">注文画面へ進む</a>
+</div>
+      </div>
+
+      <div class="compact-block compact-collection">
+        <p class="section-label">Rose Collection</p>
+        <h2>やわらかな空気感と、品種の個性。</h2>
+
+        <div class="compact-gallery">
+          <div class="compact-gallery-main">
+            <img src="image/rose/rose-pink/haruka.jpg" alt="はるか">
+          </div>
+          <div class="compact-gallery-sub">
+            <img src="image/rose/rose-white/avalanche.jpg" alt="アバランチェ">
+          </div>
+          <div class="compact-gallery-sub">
+            <img src="image/rose/rose-other/Julia.jpg" alt="ジュリア">
+          </div>
+        </div>
+      </div>
+    </section>
+
+      </main>
+
+  <script>
+    const videos = [
+      "video/pinkrose.mp4",
+      "video/rainrose.mp4",
+      "video/redrose.mp4"
+    ];
+
+    const videoElement = document.getElementById("bgVideo");
+    const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+
+    videoElement.innerHTML = `
+      <source src="${randomVideo}" type="video/mp4">
+    `;
+  </script>
+
+</body>
+</html>

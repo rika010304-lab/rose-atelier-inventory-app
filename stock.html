@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在庫登録 | バラ注文アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo-area">
+        <p class="logo-sub">Rose Order App</p>
+        <h1>バラ注文アプリ</h1>
+      </div>
+
+      <nav class="side-nav">
+  <a href="index.html">在庫一覧</a>
+  <a href="add-flower.html">品種登録</a>
+  <a href="stock.html" class="active">在庫登録</a>
+  <a href="order.html">注文登録</a>
+  <a href="waste.html">廃棄登録</a>
+
+  <div class="nav-divider"></div>
+
+  <a href="welcome.html" class="back-home">← ウェルカムへ戻る</a>
+</nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="page-label">Stock</p>
+          <h2>在庫登録</h2>
+        </div>
+      </header>
+
+      <section class="content-card form-card">
+        <div class="section-head single">
+          <div>
+            <h3>入荷したバラを登録</h3>
+            <p>品種ごとの在庫数を管理するための登録画面です</p>
+          </div>
+        </div>
+
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="stock-variety">品種名</label>
+              <input
+                type="text"
+                id="stock-variety"
+                name="stock-variety"
+                placeholder="例：アバランチェ"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="stock-color">色</label>
+              <select id="stock-color" name="stock-color">
+                <option value="">色を選択してください</option>
+                <option>ピンク</option>
+                <option>レッド</option>
+                <option>イエロー</option>
+                <option>ホワイト</option>
+                <option>グリーン</option>
+                <option>オレンジ</option>
+                <option>その他</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="stock-quantity">入荷本数</label>
+              <input
+                type="number"
+                id="stock-quantity"
+                name="stock-quantity"
+                min="1"
+                placeholder="例：30"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="stock-date">入荷日</label>
+              <input
+                type="date"
+                id="stock-date"
+                name="stock-date"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="stock-price">仕入れ単価</label>
+              <input
+                type="number"
+                id="stock-price"
+                name="stock-price"
+                min="0"
+                placeholder="例：280"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="stock-image-path">画像パス</label>
+              <input
+                type="text"
+                id="stock-image-path"
+                name="stock-image-path"
+                placeholder="例：image/rose/rose-white/avalanche.jpg"
+              >
+            </div>
+
+            <div class="form-group full-width">
+              <label for="stock-note">メモ</label>
+              <textarea
+                id="stock-note"
+                name="stock-note"
+                rows="4"
+                placeholder="例：状態良好 / 大輪 / ブライダル向け"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a href="index.html" class="secondary-btn">戻る</a>
+            <button type="submit" class="primary-btn">在庫を登録</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const data = {
+      variety: document.getElementById("stock-variety").value,
+      color: document.getElementById("stock-color").value,
+      quantity: Number(document.getElementById("stock-quantity").value),
+      date: document.getElementById("stock-date").value,
+      price: Number(document.getElementById("stock-price").value),
+      image: document.getElementById("stock-image-path").value,
+      note: document.getElementById("stock-note").value
+    };
+
+    // 既存データ取得
+    const stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
+
+    // 追加
+    stocks.push(data);
+
+    // 保存
+    localStorage.setItem("stocks", JSON.stringify(stocks));
+
+    alert("在庫を登録しました");
+
+    form.reset();
+  });
+</script>
+</body>
+</html>

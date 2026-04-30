@@ -3,86 +3,315 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>注文登録 | 花屋在庫管理アプリ</title>
+  <title>注文登録 | バラ注文アプリ</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="app-layout">
     <aside class="sidebar">
       <div class="logo-area">
-        <p class="logo-sub">Flower Shop</p>
-        <h1>在庫管理アプリ</h1>
+        <p class="logo-sub">Rose Order App</p>
+        <h1>バラ注文アプリ</h1>
       </div>
 
       <nav class="side-nav">
-        <a href="index.html">花一覧</a>
-        <a href="add-flower.html">花を登録</a>
-        <a href="order.html" class="active">注文登録</a>
-        <a href="waste.html">廃棄登録</a>
-      </nav>
+  <a href="index.html">在庫一覧</a>
+  <a href="add-flower.html">品種登録</a>
+  <a href="stock.html">在庫登録</a>
+  <a href="order.html" class="active">注文登録</a>
+  <a href="waste.html">廃棄登録</a>
+
+  <div class="nav-divider"></div>
+
+  <a href="welcome.html" class="back-home">← ウェルカムへ戻る</a>
+</nav>
     </aside>
 
     <main class="main-content">
-      <header class="page-header">
+      <header class="page-header cart-header">
         <div>
           <p class="page-label">Order</p>
-          <h2>注文登録</h2>
+          <h2>バラを選んで注文する</h2>
         </div>
+        <a href="cart.html" class="cart-link">
+          <span>🛒 カート</span>
+          <span class="cart-count-badge" id="headerCartCount">0</span>
+        </a>
+        
       </header>
 
-      <section class="content-card form-card">
+      <section class="content-card">
         <div class="section-head single">
           <div>
-            <h3>注文内容を入力</h3>
-            <p>注文登録後、在庫が減る想定の画面です</p>
+            <h3>品種を選ぶ</h3>
+            <p>写真を見ながら好きなバラをカートに追加できます</p>
           </div>
         </div>
 
-        <form>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="flower-name">花名</label>
-              <select id="flower-name" name="flower-name">
-                <option>バラ</option>
-                <option>カーネーション</option>
-                <option>ガーベラ</option>
-                <option>トルコキキョウ</option>
-              </select>
-            </div>
+        <div class="catalog-filter" id="filterButtons">
+          <button class="chip active" type="button" data-filter="all">すべて</button>
+          <button class="chip" type="button" data-filter="ピンク">ピンク</button>
+          <button class="chip" type="button" data-filter="レッド">レッド</button>
+          <button class="chip" type="button" data-filter="イエロー">イエロー</button>
+          <button class="chip" type="button" data-filter="ホワイト">ホワイト</button>
+          <button class="chip" type="button" data-filter="グリーン">グリーン</button>
+          <button class="chip" type="button" data-filter="オレンジ">オレンジ</button>
+          <button class="chip" type="button" data-filter="その他">その他</button>
+        </div>
 
-            <div class="form-group">
-              <label for="quantity">数量</label>
-              <input type="number" id="quantity" name="quantity" placeholder="例：5">
-            </div>
-
-            <div class="form-group">
-              <label for="customer">注文者名</label>
-              <input type="text" id="customer" name="customer" placeholder="例：山田 花子">
-            </div>
-
-            <div class="form-group">
-              <label for="order-date">注文日</label>
-              <input type="date" id="order-date" name="order-date">
-            </div>
-
-            <div class="form-group full-width">
-              <label for="order-note">備考</label>
-              <textarea id="order-note" name="order-note" rows="4" placeholder="例：赤系でまとめる"></textarea>
-            </div>
-          </div>
-
-          <div class="highlight-box">
-            <p class="highlight-label">想定合計金額</p>
-            <p class="highlight-value">1,500円</p>
-          </div>
-
-          <div class="form-actions">
-            <a href="index.html" class="secondary-btn">戻る</a>
-            <button type="submit" class="primary-btn">注文を登録</button>
-          </div>
-        </form>
+        <div class="flower-grid" id="flowerGrid"></div>
       </section>
     </main>
   </div>
+
+  <script>
+    const roseData = [
+      { color: "ピンク", folder: "rose-pink", file: "Aries", ja: "アリエス", en: "Aries", price: 520, longLasting: true, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Avenir", ja: "アベニール", en: "Avenir", price: 470, longLasting: false, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Blossom Pink", ja: "ブロッサムピンク", en: "Blossom Pink", price: 450, longLasting: false, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "haruka", ja: "はるか", en: "haruka", price: 680, longLasting: false, fragrant: true },
+      { color: "ピンク", folder: "rose-pink", file: "Jumilia", ja: "ジュミリア", en: "Jumilia", price: 620, longLasting: true, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Remembrance", ja: "リメンブランス", en: "Remembrance", price: 540, longLasting: true, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "riverdale", ja: "リバーデール", en: "riverdale", price: 650, longLasting: false, fragrant: true },
+      { color: "ピンク", folder: "rose-pink", file: "SweetAvalanche", ja: "スイートアバランチェ", en: "Sweet Avalanche", price: 700, longLasting: true, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Littlewoods", ja: "リトルウッズ", en: "Littlewoods", price: 440, longLasting: false, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Lovelylydia", ja: "ラブリーリディア", en: "Lovelylydia", price: 480, longLasting: false, fragrant: false },
+      { color: "ピンク", folder: "rose-pink", file: "Strawberrywaltz", ja: "ストロベリーワルツ", en: "Strawberrywaltz", price: 610, longLasting: true, fragrant: false },
+
+      { color: "レッド", folder: "rose-red", file: "amada", ja: "アマダ", en: "amada", price: 590, longLasting: true, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "Brillante", ja: "ブリランテ", en: "Brillante", price: 640, longLasting: true, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "RedElegance", ja: "レッドエレガンス", en: "RedElegance", price: 560, longLasting: false, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "RedRanunculus", ja: "レッドラナンキュラス", en: "RedRanunculus", price: 500, longLasting: false, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "samurai", ja: "サムライ", en: "samurai", price: 690, longLasting: true, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "fanfare", ja: "ファンファーレ", en: "fanfare", price: 460, longLasting: false, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "Ladylove", ja: "レディラブ", en: "Ladylove", price: 530, longLasting: false, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "littlemarvel", ja: "リトルマーベル", en: "littlemarvel", price: 430, longLasting: false, fragrant: false },
+      { color: "レッド", folder: "rose-red", file: "Tamango", ja: "タマンゴ", en: "Tamango", price: 510, longLasting: false, fragrant: false },
+
+      { color: "イエロー", folder: "rose-yellow", file: "catalina", ja: "カタリナ", en: "catalina", price: 490, longLasting: false, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "Goldrush", ja: "ゴールドラッシュ", en: "Goldrush", price: 630, longLasting: true, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "Ilios", ja: "イリオス", en: "Ilios", price: 610, longLasting: true, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "JoanofArc", ja: "ジャンヌダルク", en: "Joan of Arc", price: 570, longLasting: false, fragrant: true },
+      { color: "イエロー", folder: "rose-yellow", file: "Lumiere", ja: "ルミエール", en: "Lumiere", price: 520, longLasting: false, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "molineux", ja: "モリニュー", en: "molineux", price: 660, longLasting: false, fragrant: true },
+      { color: "イエロー", folder: "rose-yellow", file: "Honeylemon", ja: "ハニーレモン", en: "Honeylemon", price: 440, longLasting: false, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "Pisscup", ja: "ピスカップ", en: "Pisscup", price: 410, longLasting: false, fragrant: false },
+      { color: "イエロー", folder: "rose-yellow", file: "Shootingstar", ja: "シューティングスター", en: "Shootingstar", price: 680, longLasting: true, fragrant: false },
+
+      { color: "ホワイト", folder: "rose-white", file: "All4CuteWhite", ja: "オールフォーキュートホワイト", en: "All4CuteWhite", price: 450, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "avalanche", ja: "アバランチェ", en: "avalanche", price: 700, longLasting: true, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "emablewhite", ja: "エマーブルホワイト", en: "emablewhite", price: 480, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "Tineke", ja: "ティネケ", en: "Tineke", price: 540, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "FairyKissWhite", ja: "フェアリーキッスホワイト", en: "FairyKissWhite", price: 510, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "spraywit", ja: "スプレーウィット", en: "spraywit", price: 430, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "Sweetold", ja: "スイートオールド", en: "Sweetold", price: 470, longLasting: false, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "Vivian", ja: "ビビアン", en: "Vivian", price: 620, longLasting: true, fragrant: false },
+      { color: "ホワイト", folder: "rose-white", file: "whitebambina", ja: "ホワイトバンビーナ", en: "whitebambina", price: 640, longLasting: true, fragrant: false },
+
+      { color: "グリーン", folder: "rose-green", file: "lime", ja: "ライム", en: "lime", price: 610, longLasting: true, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "Minttea", ja: "ミントティー", en: "Minttea", price: 650, longLasting: true, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "supergreen", ja: "スーパーグリーン", en: "supergreen", price: 520, longLasting: false, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "concusare", ja: "コンクサーレ", en: "concusare", price: 560, longLasting: true, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "Eclair", ja: "エクレール", en: "Eclair", price: 680, longLasting: true, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "OrientalEclair", ja: "オリエンタルエクレール", en: "OrientalEclair", price: 700, longLasting: true, fragrant: false },
+      { color: "グリーン", folder: "rose-green", file: "Ryuiso", ja: "リュイソ", en: "Ryuiso", price: 490, longLasting: false, fragrant: false },
+
+      { color: "オレンジ", folder: "rose-orange", file: "apricotfoundation", ja: "アプリコットファンデーション", en: "apricotfoundation", price: 550, longLasting: false, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "BabyRomantica", ja: "ベビーロマンティカ", en: "BabyRomantica", price: 690, longLasting: true, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "caramelantique", ja: "キャラメルアンティーク", en: "caramelantique", price: 670, longLasting: false, fragrant: true },
+      { color: "オレンジ", folder: "rose-orange", file: "Carpidom", ja: "カルピドム", en: "Carpidom", price: 620, longLasting: true, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "Fossett", ja: "フォセット", en: "Fossett", price: 480, longLasting: false, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "HeliosRomantica", ja: "ヘリオスロマンティカ", en: "HeliosRomantica", price: 590, longLasting: false, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "OrangeRomantica", ja: "オレンジロマンティカ", en: "OrangeRomantica", price: 600, longLasting: false, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "PeachAvalanche", ja: "ピーチアバランチェ", en: "PeachAvalanche", price: 640, longLasting: false, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "Cindy", ja: "シンディ", en: "Cindy", price: 610, longLasting: true, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "Fellini", ja: "フェリーニ", en: "Fellini", price: 660, longLasting: true, fragrant: false },
+      { color: "オレンジ", folder: "rose-orange", file: "sunnyday", ja: "サニーデイ", en: "sunnyday", price: 630, longLasting: true, fragrant: false },
+
+      { color: "その他", folder: "rose-other", file: "blackbaccarat", ja: "ブラックバカラ", en: "blackbaccarat", price: 680, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "blacktea", ja: "ブラックティー", en: "blacktea", price: 700, longLasting: false, fragrant: true },
+      { color: "その他", folder: "rose-other", file: "Bluemillefeuille", ja: "ブルーミルフィーユ", en: "Bluemillefeuille", price: 650, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "cafelatte", ja: "カフェラテ", en: "cafelatte", price: 560, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "Julia", ja: "ジュリア", en: "Julia", price: 620, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "teddybear", ja: "テディベア", en: "teddybear", price: 540, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "schnabel", ja: "シュナーベル", en: "schnabel", price: 500, longLasting: false, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "TenatureLemon", ja: "テナチュールレモン", en: "TenatureLemon", price: 610, longLasting: true, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "Lilacclassic", ja: "ライラッククラシック", en: "Lilacclassic", price: 640, longLasting: true, fragrant: false },
+      { color: "その他", folder: "rose-other", file: "crazytoo", ja: "クレイジートゥー", en: "crazytoo", price: 690, longLasting: false, fragrant: true }
+    ];
+
+    const CART_KEY = "rose_cart";
+    const flowerGrid = document.getElementById("flowerGrid");
+    const filterButtons = document.getElementById("filterButtons");
+    const headerCartCount = document.getElementById("headerCartCount");
+    let currentFilter = "all";
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      updateHeaderCartCount();
+    }
+
+    function updateHeaderCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      headerCartCount.textContent = count;
+    }
+
+    function getItemKey(rose) {
+      return `${rose.folder}/${rose.file}`;
+    }
+
+    function addToCart(rose, quantity = 1) {
+      const cart = getCart();
+      const key = getItemKey(rose);
+      const existing = cart.find(item => item.key === key);
+
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.push({
+          key,
+          rose,
+          quantity
+        });
+      }
+
+      saveCart(cart);
+    }
+
+    function getColorClass(color) {
+      switch (color) {
+        case "ピンク":
+          return "soft-pink";
+        case "レッド":
+          return "soft-red";
+        case "イエロー":
+          return "soft-yellow";
+        case "ホワイト":
+          return "soft-white";
+        case "グリーン":
+          return "soft-green";
+        case "オレンジ":
+          return "soft-orange";
+        case "その他":
+          return "soft-other";
+        default:
+          return "";
+      }
+    }
+
+    function formatPrice(price) {
+      return price.toLocaleString("ja-JP") + "円";
+    }
+
+function renderCards() {
+  flowerGrid.innerHTML = "";
+
+  const stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
+
+  const filtered = currentFilter === "all"
+    ? roseData
+    : roseData.filter(rose => rose.color === currentFilter);
+
+  filtered.forEach(rose => {
+    const article = document.createElement("article");
+    article.className = "flower-card";
+
+    const stock = stocks.find(s => s.variety === rose.ja);
+    const stockQuantity = stock ? Number(stock.quantity) : 0;
+    const isSoldOut = !stock || stockQuantity === 0;
+
+    const featureTags = [];
+    if (rose.longLasting) {
+      featureTags.push(`<span class="feature-tag long">日持ち</span>`);
+    }
+    if (rose.fragrant) {
+      featureTags.push(`<span class="feature-tag aroma">香り</span>`);
+    }
+
+    if (isSoldOut) {
+      featureTags.push(`<span class="feature-tag soldout">売り切れ</span>`);
+    }
+
+    const featureTagHTML = featureTags.length > 0
+      ? `<div class="feature-tag-group image-feature-tags">${featureTags.join("")}</div>`
+      : "";
+
+    article.innerHTML = `
+      <div class="flower-image-wrap">
+        <img
+          src="image/rose/${rose.folder}/${rose.file}.jpg"
+          alt="バラ ${rose.color} ${rose.ja}"
+          class="flower-image"
+        >
+        ${featureTagHTML}
+      </div>
+
+      <div class="flower-card-body">
+        <div class="tag-group">
+          <span class="tag">バラ</span>
+          <span class="soft-color-tag ${getColorClass(rose.color)}">${rose.color}</span>
+        </div>
+
+        <h3 class="flower-name">${rose.ja}</h3>
+        <p class="flower-en-name">${rose.en}</p>
+        <p class="flower-price">${formatPrice(rose.price)} / 1本</p>
+
+        <div class="card-order-row">
+          <select class="qty-select" ${isSoldOut ? "disabled" : ""}>
+            <option value="1">1本</option>
+            <option value="2">2本</option>
+            <option value="3">3本</option>
+            <option value="5">5本</option>
+            <option value="10">10本</option>
+          </select>
+          <button type="button" class="primary-btn card-btn" ${isSoldOut ? "disabled" : ""}>
+            ${isSoldOut ? "売り切れ" : "カートに追加"}
+          </button>
+        </div>
+      </div>
+    `;
+
+   const qtySelect = article.querySelector(".qty-select");
+const cardBtn = article.querySelector(".card-btn");
+
+cardBtn.addEventListener("click", () => {
+  const quantity = Number(qtySelect.value);
+
+  if (isSoldOut) {
+    alert("売り切れの商品です");
+    return;
+  }
+
+  if (quantity > stockQuantity) {
+    alert(`在庫数を超えています。現在の在庫は${stockQuantity}本です。`);
+    return;
+  }
+
+  addToCart(rose, quantity);
+  renderCards();
+});
+
+flowerGrid.appendChild(article);
+  });
+}
+
+    filterButtons.addEventListener("click", (e) => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      renderCards();
+    });
+
+    updateHeaderCartCount();
+    renderCards();
+  </script>
 </body>
 </html>

@@ -3,22 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>廃棄登録 | 花屋在庫管理アプリ</title>
+  <title>廃棄登録 | バラ注文アプリ</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <div class="app-layout">
     <aside class="sidebar">
       <div class="logo-area">
-        <p class="logo-sub">Flower Shop</p>
-        <h1>在庫管理アプリ</h1>
+        <p class="logo-sub">Rose Order App</p>
+        <h1>バラ注文アプリ</h1>
       </div>
 
       <nav class="side-nav">
-        <a href="index.html">花一覧</a>
-        <a href="add-flower.html">花を登録</a>
+        <a href="index.html">在庫一覧</a>
+        <a href="add-flower.html">品種登録</a>
+        <a href="stock.html">在庫登録</a>
         <a href="order.html">注文登録</a>
         <a href="waste.html" class="active">廃棄登録</a>
+
+        <div class="nav-divider"></div>
+
+        <a href="welcome.html" class="back-home">← ウェルカムへ戻る</a>
       </nav>
     </aside>
 
@@ -34,25 +40,27 @@
         <div class="section-head single">
           <div>
             <h3>廃棄情報を登録</h3>
-            <p>ロスの見える化につながる重要データです</p>
+            <p>登録済み在庫から品種を選び、廃棄本数を反映します</p>
           </div>
         </div>
 
-        <form>
+        <form id="wasteForm">
           <div class="form-grid">
             <div class="form-group">
-              <label for="waste-flower-name">花名</label>
-              <select id="waste-flower-name" name="waste-flower-name">
-                <option>バラ</option>
-                <option>カーネーション</option>
-                <option>ガーベラ</option>
-                <option>トルコキキョウ</option>
+              <label for="waste-variety">品種名</label>
+              <select id="waste-variety" name="waste-variety">
+                <option value="">品種を選択してください</option>
               </select>
             </div>
 
             <div class="form-group">
+              <label for="waste-color">色</label>
+              <input type="text" id="waste-color" name="waste-color" readonly>
+            </div>
+
+            <div class="form-group">
               <label for="waste-quantity">廃棄本数</label>
-              <input type="number" id="waste-quantity" name="waste-quantity" placeholder="例：3">
+              <input type="number" id="waste-quantity" name="waste-quantity" min="1" placeholder="例：3">
             </div>
 
             <div class="form-group">
@@ -66,13 +74,19 @@
                 <option>鮮度低下</option>
                 <option>折れ・傷み</option>
                 <option>売れ残り</option>
+                <option>配送時の傷み</option>
                 <option>その他</option>
               </select>
             </div>
 
+            <div class="form-group">
+              <label for="waste-image-path">対象画像パス</label>
+              <input type="text" id="waste-image-path" name="waste-image-path" readonly>
+            </div>
+
             <div class="form-group full-width">
               <label for="waste-note">詳細メモ</label>
-              <textarea id="waste-note" name="waste-note" rows="4" placeholder="例：高温で傷みが早かった"></textarea>
+              <textarea id="waste-note" name="waste-note" rows="4" placeholder="例：高温で傷みが早かった / 花弁の縁に痛みあり"></textarea>
             </div>
           </div>
 
@@ -81,8 +95,151 @@
             <button type="submit" class="primary-btn">廃棄を登録</button>
           </div>
         </form>
+        <div class="form-actions">
+  <button type="button" class="secondary-btn" id="downloadWasteCsvBtn">
+    廃棄データをCSV出力
+  </button>
+</div>
       </section>
     </main>
   </div>
+
+  <script>
+    const wasteForm = document.getElementById("wasteForm");
+    const varietySelect = document.getElementById("waste-variety");
+    const colorInput = document.getElementById("waste-color");
+    const imagePathInput = document.getElementById("waste-image-path");
+
+    let stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
+
+    function renderStockOptions() {
+      varietySelect.innerHTML = `<option value="">品種を選択してください</option>`;
+
+      if (stocks.length === 0) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "登録済みの在庫がありません";
+        option.disabled = true;
+        varietySelect.appendChild(option);
+        return;
+      }
+
+      stocks.forEach((stock, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${stock.variety}（${stock.color} / 在庫 ${stock.quantity}本）`;
+        varietySelect.appendChild(option);
+      });
+    }
+
+    varietySelect.addEventListener("change", function () {
+      const selectedStock = stocks[varietySelect.value];
+
+      if (!selectedStock) {
+        colorInput.value = "";
+        imagePathInput.value = "";
+        return;
+      }
+
+      colorInput.value = selectedStock.color;
+      imagePathInput.value = selectedStock.image || "";
+    });
+
+    wasteForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const selectedIndex = varietySelect.value;
+      const selectedStock = stocks[selectedIndex];
+      const quantity = Number(document.getElementById("waste-quantity").value);
+      const date = document.getElementById("waste-date").value;
+      const reason = document.getElementById("waste-reason").value;
+      const note = document.getElementById("waste-note").value.trim();
+
+      if (!selectedStock) {
+        alert("品種を選択してください");
+        return;
+      }
+
+      if (!quantity || quantity <= 0) {
+        alert("廃棄本数を正しく入力してください");
+        return;
+      }
+
+      if (quantity > selectedStock.quantity) {
+        alert("在庫数を超えて廃棄することはできません");
+        return;
+      }
+
+      selectedStock.quantity -= quantity;
+
+      localStorage.setItem("stocks", JSON.stringify(stocks));
+
+      const wasteRecords = JSON.parse(localStorage.getItem("waste_records") || "[]");
+
+      wasteRecords.push({
+        variety: selectedStock.variety,
+        color: selectedStock.color,
+        quantity,
+        date,
+        reason,
+        image: selectedStock.image || "",
+        note
+      });
+
+      localStorage.setItem("waste_records", JSON.stringify(wasteRecords));
+
+      alert("廃棄登録が完了しました。在庫数を更新しました。");
+
+      wasteForm.reset();
+      colorInput.value = "";
+      imagePathInput.value = "";
+
+      stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
+      renderStockOptions();
+    });
+const downloadWasteCsvBtn = document.getElementById("downloadWasteCsvBtn");
+
+downloadWasteCsvBtn.addEventListener("click", function () {
+  const wasteRecords = JSON.parse(localStorage.getItem("waste_records") || "[]");
+
+  if (wasteRecords.length === 0) {
+    alert("出力する廃棄データがありません");
+    return;
+  }
+
+  const headers = ["date", "variety", "color", "quantity", "reason", "note"];
+
+  const rows = wasteRecords.map(record => [
+    record.date || "",
+    record.variety || "",
+    record.color || "",
+    record.quantity || "",
+    record.reason || "",
+    record.note || ""
+  ]);
+
+  const csvContent = [
+    headers.join(","),
+    ...rows.map(row =>
+      row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")
+    )
+  ].join("\n");
+
+  const bom = "\uFEFF";
+  const blob = new Blob([bom + csvContent], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "waste_records.csv";
+  link.click();
+
+  URL.revokeObjectURL(url);
+});
+    renderStockOptions();
+  </script>
 </body>
 </html>
